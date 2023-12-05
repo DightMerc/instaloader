@@ -363,6 +363,7 @@ class InstaloaderContext:
         is_other_query = not is_graphql_query and host == "www.instagram.com"
         sess = session if session else self._session
         sess.proxies = self.proxies
+        print(sess.proxies)
         try:
             self.do_sleep()
             if is_graphql_query:
