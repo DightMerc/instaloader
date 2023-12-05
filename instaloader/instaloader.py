@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from functools import wraps
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Callable, IO, Iterator, List, Optional, Set, Union, cast
+from typing import Any, Callable, IO, Iterator, List, Optional, Set, Union, cast, Dict
 from urllib.parse import urlparse
 
 import requests
