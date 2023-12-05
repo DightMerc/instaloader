@@ -84,7 +84,7 @@ class InstaloaderContext:
                  max_connection_attempts: int = 3, request_timeout: float = 300.0,
                  rate_controller: Optional[Callable[["InstaloaderContext"], "RateController"]] = None,
                  fatal_status_codes: Optional[List[int]] = None,
-                 iphone_support: bool = True, proxies: Dict = {}):
+                 iphone_support: bool = True, proxies = {}):
 
         self.user_agent = user_agent if user_agent is not None else default_user_agent()
         self.request_timeout = request_timeout

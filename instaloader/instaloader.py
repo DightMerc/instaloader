@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from functools import wraps
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Callable, IO, Iterator, List, Optional, Set, Union, cast, Dict
+from typing import Any, Callable, IO, Iterator, List, Optional, Set, Union, cast
 from urllib.parse import urlparse
 
 import requests
@@ -233,7 +233,7 @@ class Instaloader:
                  iphone_support: bool = True,
                  title_pattern: Optional[str] = None,
                  sanitize_paths: bool = False,
-                 proxies: Dict = {}):
+                 proxies = {}):
 
         self.context = InstaloaderContext(sleep, quiet, user_agent, max_connection_attempts,
                                           request_timeout, rate_controller, fatal_status_codes,
