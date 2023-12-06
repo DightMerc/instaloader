@@ -14,6 +14,7 @@ from contextlib import contextmanager
 from datetime import datetime, timedelta
 from functools import partial
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union
+from fake_useragent import UserAgent
 
 import requests
 import requests.utils
@@ -344,6 +345,17 @@ class InstaloaderContext:
         if self.sleep:
             time.sleep(min(random.expovariate(0.6), 15.0))
 
+    def get_new_user_agent(self):
+        ua_list = [
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 11; Pixel 5 Build/RQ3A.210805.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 10; Galaxy S21 Build/ASQ1.210523.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 9; OnePlus 7T Build/PKQ1.180904.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 8.1.0; Pixel 2 Build/OPM2.171026.006.G1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36"
+
+        ]
+        return random.choice(ua_list)
+
     def get_json(self, path: str, params: Dict[str, Any], host: str = 'www.instagram.com',
                  session: Optional[requests.Session] = None, _attempt=1,
                  response_headers: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
@@ -361,7 +373,8 @@ class InstaloaderContext:
         is_graphql_query = 'query_hash' in params and 'graphql/query' in path
         is_iphone_query = host == 'i.instagram.com'
         is_other_query = not is_graphql_query and host == "www.instagram.com"
-        sess = session if session else self._session
+        sess: requests.Session = session if session else self._session
+        sess.headers.update({'User-Agent': self.get_new_user_agent()})
         proxies = self.proxies.pop()
         print(proxies, file=sys.stderr)
         origin_dict = sess.get("http://httpbin.org/ip", proxies=proxies).json()
