@@ -344,13 +344,23 @@ class InstaloaderContext:
         if self.sleep:
             time.sleep(min(random.expovariate(0.6), 15.0))
 
+    def generate_build_number(self):
+        # Randomly generate a build number similar to the provided format
+        build_prefix = random.choice(["RP1", "RQ1", "RQ2", "RQ3", "RP2", "RQ4"])
+        build_date = "{:02d}{:02d}{:02d}".format(
+            random.randint(21, 22), random.randint(1, 12), random.randint(1, 28)
+        )
+        build_revision = "{:03d}".format(random.randint(1, 999))
+
+        return f"{build_prefix}.{build_date}.{build_revision}"
+
     def get_new_user_agent(self):
         ua_list = [
             "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 11; Pixel 5 Build/RQ3A.210805.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 10; Galaxy S21 Build/ASQ1.210523.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 9; OnePlus 7T Build/PKQ1.180904.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 8.1.0; Pixel 2 Build/OPM2.171026.006.G1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36"
+            f"Mozilla/5.0 (Linux; Android 14; Pixel 7 Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
+            f"Mozilla/5.0 (Linux; Android 12; Galaxy S21 Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
+            f"Mozilla/5.0 (Linux; Android 13; OnePlus 7T Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
+            f"Mozilla/5.0 (Linux; Android 13; Pixel 7 Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36"
 
         ]
         return random.choice(ua_list)
@@ -373,7 +383,9 @@ class InstaloaderContext:
         is_iphone_query = host == 'i.instagram.com'
         is_other_query = not is_graphql_query and host == "www.instagram.com"
         sess: requests.Session = session if session else self._session
-        sess.headers.update({'User-Agent': self.get_new_user_agent()})
+        ua = {'User-Agent': self.get_new_user_agent()}
+        sess.headers.update(ua)
+        print(ua, file=sys.stderr)
         proxies = self.proxies.pop()
         print(proxies, file=sys.stderr)
         origin_dict = sess.get("http://httpbin.org/ip", proxies=proxies).json()
