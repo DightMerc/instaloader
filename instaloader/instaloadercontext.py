@@ -363,9 +363,9 @@ class InstaloaderContext:
         is_other_query = not is_graphql_query and host == "www.instagram.com"
         sess = session if session else self._session
         proxies = self.proxies.pop()
-        print(proxies)
+        print(proxies, file=sys.stderr)
         origin_dict = sess.get("http://httpbin.org/ip", proxies=proxies).json()
-        print(f"Trying make request from {origin_dict['origin']}")
+        print(f"Trying make request from {origin_dict['origin']}", file=sys.stderr)
         try:
             self.do_sleep()
             if is_graphql_query:
