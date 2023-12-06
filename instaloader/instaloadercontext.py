@@ -84,7 +84,7 @@ class InstaloaderContext:
                  max_connection_attempts: int = 3, request_timeout: float = 300.0,
                  rate_controller: Optional[Callable[["InstaloaderContext"], "RateController"]] = None,
                  fatal_status_codes: Optional[List[int]] = None,
-                 iphone_support: bool = True, proxies = {}):
+                 iphone_support: bool = True, proxies: List[Dict] = None):
 
         self.user_agent = user_agent if user_agent is not None else default_user_agent()
         self.request_timeout = request_timeout
@@ -362,7 +362,9 @@ class InstaloaderContext:
         is_iphone_query = host == 'i.instagram.com'
         is_other_query = not is_graphql_query and host == "www.instagram.com"
         sess = session if session else self._session
-        print(self.proxies)
+        proxies = self.proxies.pop()
+        origin_dict = sess.get("http://httpbin.org/ip", proxies=proxies).json()
+        print(f"Trying make request from {origin_dict['origin']}")
         try:
             self.do_sleep()
             if is_graphql_query:
@@ -371,7 +373,7 @@ class InstaloaderContext:
                 self._rate_controller.wait_before_query('iphone')
             if is_other_query:
                 self._rate_controller.wait_before_query('other')
-            resp = sess.get('https://{0}/{1}'.format(host, path), params=params, allow_redirects=False, proxies=self.proxies)
+            resp = sess.get('https://{0}/{1}'.format(host, path), params=params, allow_redirects=False, proxies=proxies)
             if resp.status_code in self.fatal_status_codes:
                 redirect = " redirect to {}".format(resp.headers['location']) if 'location' in resp.headers else ""
                 body = ""
@@ -391,7 +393,7 @@ class InstaloaderContext:
                                                  "some time, recreate the session and try again")
                 if redirect_url.startswith('https://{}/'.format(host)):
                     resp = sess.get(redirect_url if redirect_url.endswith('/') else redirect_url + '/',
-                                    params=params, allow_redirects=False, proxies=self.proxies)
+                                    params=params, allow_redirects=False, proxies=proxies)
                 else:
                     break
             if response_headers is not None:
