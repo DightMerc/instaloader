@@ -383,9 +383,9 @@ class InstaloaderContext:
         is_iphone_query = host == 'i.instagram.com'
         is_other_query = not is_graphql_query and host == "www.instagram.com"
         sess: requests.Session = session if session else self._session
-        ua = {'User-Agent': self.get_new_user_agent()}
-        sess.headers.update(ua)
-        print(ua, file=sys.stderr)
+        # ua = {'User-Agent': self.get_new_user_agent()}
+        # sess.headers.update(ua)
+        # print(ua, file=sys.stderr)
         proxies = self.proxies.pop()
         print(proxies, file=sys.stderr)
         origin_dict = sess.get("http://httpbin.org/ip", proxies=proxies).json()
