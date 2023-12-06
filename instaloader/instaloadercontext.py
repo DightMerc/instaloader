@@ -363,6 +363,7 @@ class InstaloaderContext:
         is_other_query = not is_graphql_query and host == "www.instagram.com"
         sess = session if session else self._session
         proxies = self.proxies.pop()
+        print(proxies)
         origin_dict = sess.get("http://httpbin.org/ip", proxies=proxies).json()
         print(f"Trying make request from {origin_dict['origin']}")
         try:
