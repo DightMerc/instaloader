@@ -14,7 +14,6 @@ from contextlib import contextmanager
 from datetime import datetime, timedelta
 from functools import partial
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union
-from fake_useragent import UserAgent
 
 import requests
 import requests.utils
