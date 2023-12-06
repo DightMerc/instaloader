@@ -356,11 +356,11 @@ class InstaloaderContext:
 
     def get_new_user_agent(self):
         ua_list = [
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
-            f"Mozilla/5.0 (Linux; Android 14; Pixel 7 Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
-            f"Mozilla/5.0 (Linux; Android 12; Galaxy S21 Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
-            f"Mozilla/5.0 (Linux; Android 13; OnePlus 7T Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36",
-            f"Mozilla/5.0 (Linux; Android 13; Pixel 7 Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36"
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.101 Mobile Safari/537.36",
+            f"Mozilla/5.0 (Linux; Android 14; Pixel 7 Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.43 Mobile Safari/537.36",
+            f"Mozilla/5.0 (Linux; Android 12; Galaxy S21 Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.43 Mobile Safari/537.36",
+            f"Mozilla/5.0 (Linux; Android 13; OnePlus 7T Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.43 Mobile Safari/537.36",
+            f"Mozilla/5.0 (Linux; Android 13; Pixel 7 Build/{self.generate_build_number()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.43 Mobile Safari/537.36"
 
         ]
         return random.choice(ua_list)
